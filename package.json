@@ -1,5 +1,5 @@
 {
-      "name": "Legicon",
+      "name": "legicon",
       "version": "1.0.0",
       "author": "Legify UG",
       "description": "Node.js-based GitHub-like Identicon implementation using Keccak32.",
