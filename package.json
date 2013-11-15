@@ -1,0 +1,24 @@
+{
+      "name": "Legicon",
+      "version": "1.0.0",
+      "author": "Legify UG",
+      "description": "Node.js-based GitHub-like Identicon implementation using Keccak32.",
+      "contributors": [{
+            "name": "Kenan Sulayman",
+            "email": "kenan@sly.mn"
+      }],
+      "bin": {
+            "legify": "./app.js"
+      },
+      "scripts": {
+            "start": "node ./app.js"
+      },
+      "main": "./app.js",
+      "repository": {
+            "type": "git",
+            "url": "https://github.com/Legify/Legicon.git"
+      },
+      "dependencies": {
+            "canvas": "*"
+      }
+}
