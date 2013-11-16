@@ -2,6 +2,8 @@
 
 Node.js-based GitHub-like Identicon implementation using Keccak32.
 
+![Client-side](http://f.cl.ly/items/13352W0z3O3e2x3z3M42/Legicon.gif)
+
 ![CLI](http://f.cl.ly/items/3m2M2Y2G3V3f3Z3g141w/Untitled321.gif)
 
 ## Installation
@@ -11,8 +13,6 @@ Node.js-based GitHub-like Identicon implementation using Keccak32.
 Unless previously installed you'll _need_ __Cairo__.
 
 ## Example
-
-![Client-side](http://f.cl.ly/items/1k1A0G3N0s0X1O1Z101U/Untitled32.gif)
 
 ```javascript
 var Legicon = require('legicon');
