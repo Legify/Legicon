@@ -28,7 +28,7 @@ Legicon exposes some API-functions from the underlying Canvas module.
 
 ### Legicon#pngStream()
 
-  To create a `PNGStream` simply call `canvas.pngStream()`, and the stream will start to emit _data_ events, finally emitting _end_ when finished. If an exception occurs the _error_ event is emitted.
+  To create a `PNGStream` simply call `Legicon.pngStream()`, and the stream will start to emit _data_ events, finally emitting _end_ when finished. If an exception occurs the _error_ event is emitted.
 
 ```javascript
 var fs = require('fs')
@@ -48,9 +48,9 @@ Currently _only_ sync streaming is supported, however we plan on supporting asyn
 
 ### Legicon#jpegStream() and Legicon#syncJPEGStream()
 
-You can likewise create a `JPEGStream` by calling `canvas.jpegStream()` with
+You can likewise create a `JPEGStream` by calling `Legicon.jpegStream()` with
 some optional parameters; functionality is otherwise identical to
-`pngStream()`. See `examples/crop.js` for an example.
+`pngStream()`.
 
 _Note: At the moment, `jpegStream()` is the same as `syncJPEGStream()`, both
 are synchronous_
@@ -59,7 +59,7 @@ are synchronous_
 var stream = Legicon.jpegStream({
     bufsize: 4096 // output buffer size in bytes, default: 4096 
   , quality: 75 // JPEG quality (0-100) default: 75
-  , progressive: false // true for progressive compression, default: false
+  , progressive: false // true for progressive compression, default: fals
 });
 ```
 
