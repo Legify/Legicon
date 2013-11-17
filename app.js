@@ -95,43 +95,57 @@ var kec32 = (function() {
         };
 }());
 
-module.exports = function(key, options) {
+module.exports = function Legicon (key, options) {
+        if ( this["process"] )
+                return Legicon.apply({
+                        canvas: canvas,
+                        kec32: kec32
+                }, arguments);
+
+        if ( !(this instanceof Legicon) )
+                return new Legicon(key, options);
+
+        var defaults = {};
+
         // Defaults
                 // Keep RGB components in visible space [r, g, b];
                 // Default: r + g + b = ]300|690[
 
                         // Max value for a color component
-                        var rgb_max = 230;
+                        defaults.rgb_max = 230;
 
                         // Min value for a color component
-                        var rgb_min = 100;
+                        defaults.rgb_min = 100;
 
                 // Size of a grid square in pixels; Default: 40
-                var square = 40;
+                defaults.square = 40;
 
                 // DO NOT CHANGE THIS WITHOUT
                 // CHANGING THE UNDERLYING HASHING
                 // ALGORITHM ACCORDINGLY.
 
                         // Number of squares width and height; Default: 5
-                        var grid = 5;
+                        defaults.grid = 5;
 
                 // Padding on the edge of the canvas in px; Default: 20
-                var padding = square / 2;
+                defaults.padding = defaults.square / 2;
 
                 // Size of the canvas; Default: 240wh; 57600 Pixel
-                var size = square * grid + padding * 2;
+                defaults.size = defaults.square * defaults.grid + defaults.padding * 2;
+
+                // Background color
+                defaults.bgcolor = "#F0ECE6";
 
         if ( options && options.constructor === Object ) {
-                var self = this; Object.keys(options).forEach(function (v) {
+                Object.keys(options).forEach(function (v) {
                         // Override the defaults
-                        self[v] = options[v]
+                        defaults[v] = options[v]
                 })
         }
 
-        var cvs = new canvas(size, size);
-        var ctx = cvs.getContext('2d');
-        cvs.width = size, cvs.height = size;
+        var cvs = new canvas(defaults.size, defaults.size);
+        var ctx = cvs.getContext("2d");
+        cvs.width = defaults.size, cvs.height = defaults.size;
 
         var cipher = kec32(key).substr(-50);
 
@@ -141,10 +155,14 @@ module.exports = function(key, options) {
                 ntpls.push(parseInt(cipher.substr(i, 2), 16));
 
         // Draw the background
-        ctx.beginPath();
-        ctx.rect(0, 0, size, size);
-        ctx.fillStyle = '#F0ECE6';
-        ctx.fill();
+                if ( defaults.bgcolor ) {
+                        ctx.beginPath();
+                        ctx.rect(0, 0, defaults.size, defaults.size);
+                        ctx.fillStyle = defaults.bgcolor;
+                        ctx.fill();
+                }
+
+                console.log(defaults.bgcolor, arguments);
 
         // determine color based on hash;
         // Default: ntpls[8, 16, 24]
@@ -152,15 +170,15 @@ module.exports = function(key, options) {
                 var rgb = [];
                 for (var i = 0, pntr = ~~(ntpls.length / 3); i < 3; i++) {
                         var val = ntpls[pntr * i];
-                        var minEnforced = Math.max(rgb_min, val);
-                        var maxEnforced = Math.min(rgb_max, minEnforced);
+                        var minEnforced = Math.max(defaults.rgb_min, val);
+                        var maxEnforced = Math.min(defaults.rgb_max, minEnforced);
                         rgb.push(maxEnforced);
                 }
                 var color = rgb;
 
         // draw blocks
-                for (var x = 0; x < grid; x++) {
-                        for (var y = 0; y < grid; y++) {
+                for (var x = 0; x < defaults.grid; x++) {
+                        for (var y = 0; y < defaults.grid; y++) {
                                 // since we're using a hex hash
                                 // the two-char max can be FF
                                 // and we need a decision
@@ -169,12 +187,12 @@ module.exports = function(key, options) {
                                 if (ntpls[x + y] >= 127) {
                                         ctx.beginPath();
                                         ctx.rect(
-                                                padding + x * square,
-                                                padding + y * square,
-                                                square,
-                                                square
+                                                defaults.padding + x * defaults.square,
+                                                defaults.padding + y * defaults.square,
+                                                defaults.square,
+                                                defaults.square
                                         );
-                                        ctx.fillStyle = 'rgb(' + color.join(',') + ')';
+                                        ctx.fillStyle = "rgb(" + color.join(",") + ")";
                                         ctx.fill();
                                 }
                         }
