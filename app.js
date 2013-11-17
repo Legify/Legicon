@@ -134,7 +134,10 @@ module.exports = function Legicon (key, options) {
                 defaults.size = defaults.square * defaults.grid + defaults.padding * 2;
 
                 // Background color
-                defaults.bgcolor = "#F0ECE6";
+                defaults.bgColor = "#F0ECE6";
+
+                // Fill color override
+                defaults.fillColor = void 0;
 
         if ( options && options.constructor === Object ) {
                 Object.keys(options).forEach(function (v) {
@@ -155,26 +158,28 @@ module.exports = function Legicon (key, options) {
                 ntpls.push(parseInt(cipher.substr(i, 2), 16));
 
         // Draw the background
-                if ( defaults.bgcolor ) {
+                if ( defaults.bgColor ) {
                         ctx.beginPath();
                         ctx.rect(0, 0, defaults.size, defaults.size);
                         ctx.fillStyle = defaults.bgcolor;
                         ctx.fill();
                 }
 
-                console.log(defaults.bgcolor, arguments);
+                console.log(defaults.bgColor, arguments);
 
-        // determine color based on hash;
-        // Default: ntpls[8, 16, 24]
-        // with 50 chars and 2-tuples
-                var rgb = [];
-                for (var i = 0, pntr = ~~(ntpls.length / 3); i < 3; i++) {
-                        var val = ntpls[pntr * i];
-                        var minEnforced = Math.max(defaults.rgb_min, val);
-                        var maxEnforced = Math.min(defaults.rgb_max, minEnforced);
-                        rgb.push(maxEnforced);
-                }
-                var color = rgb;
+        if ( !defaults.fillColor ) {
+                // determine color based on hash;
+                // Default: ntpls[8, 16, 24]
+                // with 50 chars and 2-tuples
+                        var rgb = [];
+                        for (var i = 0, pntr = ~~(ntpls.length / 3); i < 3; i++) {
+                                var val = ntpls[pntr * i];
+                                var minEnforced = Math.max(defaults.rgb_min, val);
+                                var maxEnforced = Math.min(defaults.rgb_max, minEnforced);
+                                rgb.push(maxEnforced);
+                        }
+                        var color = rgb;
+        }
 
         // draw blocks
                 for (var x = 0; x < defaults.grid; x++) {
@@ -192,7 +197,7 @@ module.exports = function Legicon (key, options) {
                                                 defaults.square,
                                                 defaults.square
                                         );
-                                        ctx.fillStyle = "rgb(" + color.join(",") + ")";
+                                        ctx.fillStyle = defaults.fillColor || "rgb(" + color.join(",") + ")";
                                         ctx.fill();
                                 }
                         }

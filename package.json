@@ -1,6 +1,6 @@
 {
       "name": "legicon",
-      "version": "1.1.0",
+      "version": "1.1.1",
       "author": "Legify UG",
       "description": "Node.js-based GitHub-like Identicon implementation using Keccak32.",
       "contributors": [{
